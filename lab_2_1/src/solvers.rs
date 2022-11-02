@@ -1,4 +1,4 @@
-use std::{collections::{VecDeque, HashSet}, fmt::Display, hash::Hash, rc::Rc};
+use std::{collections::{VecDeque, HashSet}, /*fmt::Display, */hash::Hash, rc::Rc};
 
 #[derive(Hash, Clone, Debug)]
 pub struct Node<T:PartialEq> {
@@ -37,7 +37,7 @@ pub fn simple_solve(given:i32,goal:i32) -> Option<Node<i32>>{
     None
 }
 
-pub fn slightly_different_solve(given:i32,goal:i32) -> Option<Node<i32>>{
+pub fn _slightly_different_solve(given:i32,goal:i32) -> Option<Node<i32>>{
     let root = Node{val: given,parent: None};
     let mut open = VecDeque::from([root]);
     let mut closed = HashSet::from([given]);
@@ -113,6 +113,7 @@ pub fn uber_solve(given:i32,goal:i32) -> Option<Node<i32>>{
             }
         }
         
+        front.clear();
         // оно признак завершения потому что на предыдущей итерации мы популейтили деку
         front.insert(Rc::new(node));
         while let Some(front_node) = open.pop_back(){
@@ -124,6 +125,10 @@ pub fn uber_solve(given:i32,goal:i32) -> Option<Node<i32>>{
             front.insert(Rc::new(front_node));   
         }
 
+        // for node in &front{
+        //     print!("f{}, ",node.val);
+        // }
+        // println!();
 
         for node in &front {
             let rc = node;
@@ -143,7 +148,7 @@ pub fn uber_solve(given:i32,goal:i32) -> Option<Node<i32>>{
         let open = &mut open_back;
         let closed = &mut closed_back;
 
-
+        back.clear();
 
         while let Some(back_node) = open.pop_back(){
             for front_node in &front { //видимо придется юзать референс каунт для перекувырков между сетом и декой((
@@ -154,15 +159,20 @@ pub fn uber_solve(given:i32,goal:i32) -> Option<Node<i32>>{
             back.insert(Rc::new(back_node));
         } 
 
+        // for node in &back{
+        //     print!("b{}, ",node.val);
+        // }
+        // println!();
+
         for node in &back {
             let rc = node;
-            let mut populate = |f: fn(&i32)->i32| { 
-                if  f(&rc.val)>given && f(&rc.val)<=goal && !closed.contains(&f(&rc.val)) {
+            let mut populate = |f: fn(&i32)->i32, cond: fn(&i32,i32)->bool| { 
+                if  !closed.contains(&f(&rc.val)) && cond(&rc.val,given) {
                     open.push_front(Node{val:f(&rc.val), parent: Some(Rc::clone(&rc))});
                     closed.insert(f(&rc.val));
                 }};
-                populate(|x| x+3);
-                populate(|x| x*2);
+                populate(|x| x-3, |x,given| x-3 >= given);
+                populate(|x| x/2, |x,given| x%2 == 0 && x/2 >=given);
         }
     }
 }
@@ -184,12 +194,15 @@ pub fn unwrap1(root: Option<Node<i32>>){
 }
 
 fn glue_nodes(front: Rc<Node<i32>>,back: Rc<Node<i32>>) -> Node<i32>{
+    println!("{}; {}", front.val,back.val);
     println!("hello from glue nodes");
     if let Some(parent) = &front.parent{
         let mut root = Node{val:back.val,parent:Some(Rc::clone(&parent))};
-        while let Some(back) = &back.parent
+        let mut back = back.clone();
+        while let Some(back_node) = &back.parent
         {
-            root = Node{val:back.val,parent:Some(Rc::new(root))};      
+            root = Node{val:back_node.val,parent:Some(Rc::new(root))}; 
+            back = back_node.clone();
         }
     return root;
 }

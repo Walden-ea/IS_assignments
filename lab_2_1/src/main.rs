@@ -1,4 +1,4 @@
-#![feature(test)]
+//#![feature(test)]
 mod solvers;
 pub mod benches;
 
