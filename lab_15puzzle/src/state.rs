@@ -1,6 +1,8 @@
 use std::{rc::Rc, fmt::Display};
 use ux::u4;
 
+use crate::utils::input_to_u4_arr;
+
 type Parent = Option<Rc<State>>;
 
 pub struct State {
@@ -9,14 +11,14 @@ pub struct State {
 }
 
 impl State {
-    pub fn state(mut self, puzzle: &str) {
-        self.parent = None;
+    pub fn new(input: &str) -> Self {
         
-        assert!(puzzle.len()==16);
+        assert!(input.len()==16);
+        State{puzzle:input_to_u4_arr(input), parent:None}
 
     }
 
-    fn try_slide_top(mut self) -> bool {
+    pub fn try_slide_top(&mut self) -> bool {
         let hole = self.hole();
         if hole<4 {
             return false
@@ -26,7 +28,7 @@ impl State {
         true
     }
 
-    fn try_slide_bottom(mut self) -> bool {
+    pub fn try_slide_bottom(&mut self) -> bool {
         let hole = self.hole();
         if hole>11 {
             return false
@@ -35,7 +37,7 @@ impl State {
         self.puzzle[hole + 4] = u4::new(0);
         true
     }
-    fn try_slide_left(mut self) -> bool {
+    pub fn try_slide_left(&mut self) -> bool {
         let hole = self.hole();
         if hole%4 == 0 {
             return false
@@ -45,7 +47,7 @@ impl State {
         true
     }
 
-    fn try_slide_right(mut self) -> bool {
+    pub fn try_slide_right(&mut self) -> bool {
         let hole = self.hole();
         if hole%4 == 3 {
             return false
@@ -53,6 +55,19 @@ impl State {
         self.puzzle[hole] = self.puzzle[hole + 1];
         self.puzzle[hole + 1] = u4::new(0);
         true
+    }
+    
+    pub fn is_solvable(&self) -> bool {
+        let e = self.hole()/4 + 1;
+        let sum = self.puzzle.iter().enumerate().fold(0, |acc, elem| {
+            let count = self.puzzle.iter().enumerate().filter(|x|
+                 x.1 < elem.1 && x.0 > elem.0 && *x.1!=u4::new(0) && *elem.1 != u4::new(0)  
+            ).count();
+
+            acc + count
+
+        });
+        (e+sum)%2==0
     }
     
     fn hole(&self) -> usize{

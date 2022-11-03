@@ -1,7 +1,7 @@
 use ux::u4;
 
 pub fn input_to_u4_arr(input: &str) -> [u4;16] {
-    assert!(input.chars().all(|char| (char >= '0' && char <= '9') || (char >= 'a' && char <= 'f')));
+    assert!(input.chars().all(|char| (char >= '0' && char <= '9') || (char >= 'A' && char <= 'F')));
 
 
     let mut res = [u4::new(0);16];
