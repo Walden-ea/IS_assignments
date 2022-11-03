@@ -1,6 +1,6 @@
-use ux::u4;
+// use ux::u4;
 
-pub fn print_field(arr: [u4;16]) {
+pub fn print_field(arr: [u8;16]) {
 
     let mut vertical = "|".to_string();
     vertical.push_str(&" ".repeat(11));
@@ -16,10 +16,10 @@ pub fn print_field(arr: [u4;16]) {
         print!("{}",vertical.repeat(2));
     for j in 0..4 {
 
-        if arr[i*4+j] == u4::new(0) {
+        if arr[i*4+j] == 0{
             print!("|{}"," ".repeat(11));
         }
-        else if arr[i*4+j] < u4::new(10) {
+        else if arr[i*4+j] < 10 {
         print!("|{}{}{}"," ".repeat(5),arr[i*4+j]," ".repeat(5));
         } else {
             print!("|{}{}{}"," ".repeat(5),arr[i*4+j]," ".repeat(4));
