@@ -1,4 +1,4 @@
-use std::{rc::Rc, fmt::{Display, Debug}};
+use std::{rc::Rc, fmt::{Display, Debug}, cmp::Ordering, collections::btree_set::Difference};
 // use ux::u4;
 
 use crate::utils::str_to_u8_arr;
@@ -12,6 +12,7 @@ pub enum Direction {
     Bottom
 }
 
+#[derive(Clone, Hash)]
 pub struct State {
     pub puzzle: [u8;16], // '0' -- hole
     pub parent: Parent
@@ -24,7 +25,7 @@ impl State {
     }
     pub fn new(input: &str) -> Self {
         
-        assert!(input.len()==16);
+        assert!(input.len()==16, "{}",input);
         State{puzzle:str_to_u8_arr(input), parent:None}
 
     }
@@ -53,7 +54,6 @@ impl State {
     }
 
     pub fn try_branch(&self,d: Direction) -> Option<[u8;16]>{
-        let hole = self.hole();
         match d {
             Direction::Top => self.try_slide(|x| x<4, |x| x - 4),
             Direction::Right => self.try_slide(|x| x%4 == 3,|x| x + 1),
@@ -75,6 +75,44 @@ impl State {
 
 
 }
+
+impl State {
+    pub fn calc_heuristic(&self) -> u8{
+        self.manhattan_dist()
+    }
+
+    fn manhattan_dist(&self) -> u8{
+        let mut res = 0;
+        for i in 0..16 {
+            //let difference = (self.puzzle[i] as i8 - i as i8 +1).abs() as u8;
+            let should = if self.puzzle[i] == 0 {continue;} else {self.puzzle[i] as i32};
+            let present = (i+1) as i32;//if present == 0 { 15 } else {(i+1) as i32 } ;
+            let difference = (should - present).abs();
+            res += (difference / 4) + difference % 4;
+        }
+        res as u8
+    }
+}
+
+impl Ord for State {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.calc_heuristic().cmp(&other.calc_heuristic())
+    }
+}
+
+impl PartialOrd for State {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.calc_heuristic().partial_cmp(&other.calc_heuristic())
+    }
+}
+
+impl PartialEq for State {
+    fn eq(&self, other: &Self) -> bool {
+        self.puzzle == other.puzzle
+    }
+}
+
+impl Eq for State { }
 
 impl Display for State {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
