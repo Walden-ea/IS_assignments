@@ -1,0 +1,1 @@
+C:\Users\Elena\Documents\вуз\4\ курс\интеллектуальные\ системы\IS_assignments\lab1\target\debug\lab1.exe: C:\Users\Elena\Documents\вуз\4\ курс\интеллектуальные\ системы\IS_assignments\lab1\src\main.rs C:\Users\Elena\Documents\вуз\4\ курс\интеллектуальные\ системы\IS_assignments\lab1\src\solvers.rs
