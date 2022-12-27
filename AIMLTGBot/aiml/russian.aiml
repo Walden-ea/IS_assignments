@@ -1,12 +1,32 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
+<!-- TODO: вынести воспр/паузу в переменные для норм вопросов, 
+добавить "привет","пока", добавить разные варианты фраз, разные формы слов 
+и опоциональность знаков препинания
+расскажи <что ты знаешь> о  
+-->
 <!-- ACQUAINTANCE -->
 
 <aiml>
+
+
+  <category>
+    <pattern> привет</pattern>
+    <template>
+    Привет!
+    </template>
+  </category>
+
   <category>
     <pattern>_ меня зовут *</pattern>
     <template>
         <srai>меня зовут <star/></srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern> привет *</pattern>
+    <template>
+    Привет!
     </template>
   </category>
   
@@ -22,11 +42,13 @@
     </template>
   </category>
 
+<!-- О СЕБЕ -->
+
   <category>
     <pattern>кто ты</pattern>
     <template>
       <random>
-        <li>Я заготовка бота, <get name="user-name" /></li>
+        <li>Я студент девятой группы Вавилкин Максим, <get name="user-name" /></li>
       </random>
     </template>
   </category>
@@ -38,57 +60,373 @@
     </template>
   </category>
 
-  <category>
-    <pattern>Кря *</pattern>
-    <template>
-      <srai>Кря</srai>
-    </template>
-  </category>
-  
-  <category>
-    <pattern>_ Кря *</pattern>
-    <template>
-      <srai>Кря</srai>
-    </template>
-  </category>
 
   <category>
-    <pattern>_ Кря</pattern>
-    <template>
-      <srai>Кря</srai>
-    </template>
+    <pattern>какие значки</pattern>
+      <template>
+        Запуск, пауза-запуск, перемотка вперед, перемотка назад, остановить, начать заново, вкл/выкл
+      </template>
   </category>
 
+
+  <!-- ЗНАЧКИ -->
+
+
   <category>
-    <pattern>Кря</pattern>
+    <pattern>CLASS PLAY</pattern>
     <template>
       <random>
-        <li>Кря</li>
-        <li>Кря Кря</li>
-        <li>Кря Кря Кря</li>
-        <li>Кря!</li>
-        <li>Кря Кря!</li>
-        <li>Кря Кря Кря!</li>
-        <li>Кря?</li>
-        <li>Кря Кря?</li>
-        <li>Кря Кря Кря?</li>
-        <li>Кря, <get name="user-name" /></li>
-        <li>Кря Кря, <get name="user-name" /> </li>
-        <li>Кря Кря Кря, <get name="user-name" /> </li>
-        <li>Кря, <get name="user-name" />!</li>
-        <li>Кря Кря, <get name="user-name" />!</li>
-        <li>Кря Кря Кря, <get name="user-name" />!</li>
-        <li>Кря, <get name="user-name" />?</li>
-        <li>Кря Кря, <get name="user-name" />?</li>
-        <li>Кря Кря Кря, <get name="user-name" />?</li>
+        <li>Это Play</li>
+        <li>Кнопка запуска</li>
+        <li>На кнопку запуска похоже...</li>
+        <li>Похоже, Play</li>
+      </random>
+      <think><set name="image_class">PLAY</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+    <category>
+    <pattern>CLASS STOP</pattern>
+    <template>
+      <random>
+        <li>Это Stop</li>
+        <li>Кнопка остановки</li>
+        <li>На кнопку остановки похоже...</li>
+        <li>Похоже на Stop</li>
+      </random>
+      <think><set name="image_class">STOP</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+  <category>
+    <pattern>CLASS PAUSE</pattern>
+    <template>
+      <random>
+        <li>Это Pause</li>
+        <li>Кнопка паузы</li>
+        <li>На кнопку паузы похоже...</li>
+        <li>Похоже на Pause</li>
+      </random>
+      <think><set name="image_class">PAUSE</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+  <category>
+    <pattern>CLASS REWIND RIGHT</pattern>
+    <template>
+      <random>
+        <li>Это Rewind Right</li>
+        <li>Кнопка перемотки вперед</li>
+        <li>На кнопку перемотки вперед похоже...</li>
+        <li>Похоже на Rewind Right</li>
+      </random>
+      <think><set name="image_class">REWINDRIGHT</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+
+  <category>
+    <pattern>CLASS REWIND LEFT</pattern>
+    <template>
+      <random>
+        <li>Это Rewind Left</li>
+        <li>Кнопка перемотки назад</li>
+        <li>На кнопку перемотки назад похоже...</li>
+        <li>Похоже на Rewind Left</li>
+      </random>
+      <think><set name="image_class">REWINDLEFT</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+  <category>
+    <pattern>CLASS PLAY PAUSE</pattern>
+    <template>
+      <random>
+        <li>Это Play/Pause</li>
+        <li>Кнопка воспроизведение/пауза</li>
+        <li>На кнопку воспроизведение/пауза похоже...</li>
+        <li>Похоже на Play/Pause</li>
+      </random>
+      <think><set name="image_class">PP</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+
+  <category>
+    <pattern>CLASS REPLAY</pattern>
+    <template>
+      <random>
+        <li>Это Replay</li>
+        <li>Кнопка воспроизведения с начала</li>
+        <li>На кнопку для воспроизведения с начала похоже...</li>
+        <li>Похоже на Replay</li>
+      </random>
+      <think><set name="image_class">REPL</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+  <category>
+    <pattern>CLASS TURNOFF</pattern>
+    <template>
+      <random>
+        <li>Это кнопка Turnoff</li>
+        <li>Кнопка включения/выключения</li>
+        <li>На кнопку включения и выключения похоже...</li>
+        <li>Похоже на кнопку Turnoff</li>
+      </random>
+      <think><set name="image_class">TURNOFF</set>
+      <set name="is_Saturated">false</set></think>
+    </template>
+  </category>
+
+
+<!-- О ЧЕМ МЫ ГОВОРИМ -->
+  <category>
+    <pattern>о чем мы</pattern>
+    <template> 
+        <condition name="image_class" value="PP">
+        О значке Play/Pause 
+        </condition> 
+        <condition name="image_class" value="REWINDRIGHT">
+        О значке Rewind Right
+        </condition> 
+        <condition name="image_class" value="PLAY">
+        О значке Play
+        </condition>
+        <condition name="image_class" value="PAUSE">
+        О значке Pause
+        </condition> 
+        <condition name="image_class" value="REPL">
+        О значке Replay
+        </condition> 
+        <condition name="image_class" value="TURNOFF">
+        О значке Turnoff
+        </condition> 
+        <condition name="image_class" value="REWINDLEFT">
+        О значке Rewind Left
+        </condition> 
+        <condition name="image_class" value="STOP">
+        О значке Stop
+        </condition>
+    </template>
+  </category>
+
+    <category>
+      <pattern>о чем мы</pattern>
+    <template> 
+    Да ни о чем особо...
+    </template>
+  </category>
+
+  <category>
+    <pattern>о чем мы говорим</pattern>
+    <template>
+      <srai>о чем мы</srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>о чем мы разговариваем</pattern>
+    <template>
+      <srai>о чем мы</srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>напомни тему</pattern>
+    <template>
+      <srai>о чем мы</srai>
+    </template>
+  </category>
+
+    <category>
+    <pattern>напомни тему *</pattern>
+    <template>
+      <srai>напомни тему</srai>
+    </template>
+  </category>
+
+
+<!-- РАССКАЖИ О ... -->
+
+
+  <category>
+    <pattern>что ты о ней знаешь</pattern>
+    <template> 
+        <condition name="is_saturated" value="true">
+        Больше ничего 
+        </condition> 
+        <condition name="is_saturated" value="false">
+        <srai>расскажи о <get name="image_class"/></srai>
+        </condition> 
+    </template>
+  </category>
+
+  <category>
+    <pattern>что ты знаешь о *</pattern>
+    <template>
+    <srai>расскажи о <star></star></srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>расскажи мне о *</pattern>
+    <template>
+    <srai>расскажи о <star></star></srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>_ расскажи мне о *</pattern>
+    <template>
+    <srai>расскажи о <star></star></srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>расскажи о кнопке *</pattern>
+    <template>
+      <srai>расскажи о <star></star></srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>расскажи о Play</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка запускает аудио</li>
+      </random>
+      <think><set name="image_class">PLAY</set>
+      <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+    <category>
+    <pattern>расскажи о Stop</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка полностью останавливает аудио</li>
+      </random>
+    <think><set name="image_class">STOP</set>
+    <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+ <category>
+    <pattern>расскажи о Play Pause</pattern>
+    <template>
+      <random>
+        <li>  Эта кнопка создает луч потрескивающей энергии. Он устремляется к существу, находящемуся в пределах 120 футов. 
+Совершите дальнобойную атаку заклинанием по цели. При попадании цель получает урон силовым полем 1к10.
+
+  Заклинание создаёт ещё один луч, когда вы достигаете больших уровней: два луча на 5-м уровне, три луча на 11-м уровне и четыре луча на 17-м уровне.Вы можете направить лучи в одну цель или в разных. Для каждого луча совершите свой бросок атаки.</li>
+      </random>
+    <think><set name="image_class">PP</set>
+    <set name="is_Saturated">true</set>
+    </think>
+    </template>
+  </category>
+
+    <category>
+    <pattern>расскажи о Pause</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка ставит аудио на паузу</li>
+      </random>
+    <think><set name="image_class">PAUSE</set>
+    <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+  <category>
+    <pattern>расскажи о Rewind Left</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка перематывает аудио назад</li>
+      </random>
+    <think><set name="image_class">REWINDLEFT</set>
+    <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+    <category>
+    <pattern>расскажи о Rewind Right</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка перематывает аудио вперед</li>
+      </random>
+    <think><set name="image_class">REWINDRIGHT</set>
+    <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+    <category>
+    <pattern>расскажи о Replay</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка включает аудио с самого начала</li>
+      </random>
+    <think><set name="image_class">REPLAY</set>
+    <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+
+    <category>
+    <pattern>расскажи о Turnoff</pattern>
+    <template>
+      <random>
+        <li>Эта кнопка включает или выключает плеер</li>
+      </random>
+    <think><set name="image_class">TURNOFF</set>
+    <set name="is_Saturated">true</set></think>
+    </template>
+  </category>
+
+
+
+
+<category>
+    <pattern>расскажи о *</pattern>
+    <template>
+      <random>
+        <li>Я ничего не знаю о <star></star>, <get name="user-name" /></li>
+        <li>Я, к сожалению... ничего вам об этом не расскажу, <get name="user-name" /></li>
+        <li>Без понятия, что это</li>
+        <li>Хз, что это</li>
       </random>
     </template>
   </category>
 
+
+
+<!-- ЧТО УМЕЕТ/ НЕ УМЕЕТ -->
+
   <category>
-    <pattern>Что ты умеешь</pattern>
+    <pattern>что ты умеешь _</pattern>
     <template>
-      Волшебное ничего
+        <srai>что ты умеешь </srai>
+    </template>
+  </category>
+
+    <category>
+    <pattern>что ты умеешь </pattern>
+    <template>
+      Я распознаю значки с плеера
+    </template>
+  </category>
+
+    <category>
+    <pattern>что ты делаешь</pattern>
+    <template>
+      <srai>что ты умеешь </srai>
     </template>
   </category>
   
@@ -100,9 +438,32 @@
     <pattern>Видео</pattern>
     <template>Спасибо, но, кажется, у меня сломалась кнопка запуска</template>
   </category>
+
+
+  <!-- РАЗНОЕ НЕВАЖНОЕ -->
+
+      <category>
+    <pattern>что нового</pattern>
+    <template>
+      <random>
+        <li>Кошка уселась перед микроволновкой и смотрит на свое отражение в стекле</li>
+      </random>
+    </template>
+  </category>
   
   <category>
     <pattern>*</pattern>
-    <template>Я такое не знаю, <get name="user-name"/></template>
+    <template>
+      <random>
+        <li>Мда</li>
+        <li>осуждаю</li>
+        <li>да не знаю я</li>
+        <li>Зря стараетесь, я такое не умею</li>
+        <li>Я такое не знаю, <get name="user-name"/></li>
+        <li>Ну вы даете, <get name="user-name"/></li>
+        <li>Ну вы даете...</li>
+        <li>что</li>
+      </random>
+    </template>
   </category>
 </aiml>

@@ -75,11 +75,13 @@ namespace AIMLTGBot
             if (message.Type == MessageType.Video)
             {
                 await client.SendTextMessageAsync(message.Chat.Id, aiml.Talk(chatId, username, "Видео"), cancellationToken: cancellationToken);
+                
                 return;
             }
             if (message.Type == MessageType.Audio)
             {
                 await client.SendTextMessageAsync(message.Chat.Id, aiml.Talk(chatId, username, "Аудио"), cancellationToken: cancellationToken);
+                
                 return;
             }
         }
