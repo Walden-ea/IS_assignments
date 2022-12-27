@@ -1,2 +1,6 @@
 # IS_assignments
-A repository for university Intellectual Systems projects written in Rust
+A repository for Intellectual Systems course projects;
+
+## Repository contains
+- Simple tasks for solution search
+- AIML Telegram Bot made from template
